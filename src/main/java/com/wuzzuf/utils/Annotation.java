@@ -1,4 +1,4 @@
-package com.wuzzuf.service;
+package com.wuzzuf.utils;
 
 public class Annotation {
     public static String KAGGLE_API_BASE_URL = "https://www.kaggle.com/api/v1/datasets/download/omarhanyy/wuzzuf-jobs/Wuzzuf_Jobs.csv";

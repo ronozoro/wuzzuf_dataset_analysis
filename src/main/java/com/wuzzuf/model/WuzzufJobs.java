@@ -1,5 +1,8 @@
 package com.wuzzuf.model;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+@EntityScan
 public class WuzzufJobs {
     private String title;
     private String company;
@@ -92,7 +95,7 @@ public class WuzzufJobs {
 
     @Override
     public String toString() {
-        return "Job [name=" + title + ", level=" + level + ", author=" + skills + "]";
+        return "Job [name=" + title + ", level=" + level + ", skills=" + skills + "]";
     }
 
 
