@@ -1,18 +1,474 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+
     <meta charset="UTF-8">
-    <title>Title</title>
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
     <script th:href="@{/js/jquery-3.2.1.slim.min.js}"></script>
     <script th:href="@{/js/popper.min.js}"></script>
     <script th:href="@{/js/bootstrap.bundle.js}"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <title>Wuzzuf Dataset analysis</title>
 </head>
 <body>
-<div class="container">
 
+<div class="container">
+    <h1 class="mb-3">Analysis of wuzzuf jobs data from <a href="https://www.kaggle.com/omarhanyy/wuzzuf-jobs">Kaggle</a>
+    </h1>
+    <p>
+        In this Pages we analyze wuzzuf jobs data to extract insights about the job market in middle east
+    </p>
+    <h2>
+        Dataset Structure
+    </h2>
+    <p>
+        Here we can see the head of the data displaying the first 5 rows of the dataset to show the structure of the
+        data.
+    </p>
+    <table class="table table-responsive-lg table-bordered">
+        <thead>
+        <tr>
+            <th> #</th>
+            <th class="text-center">Title</th>
+            <th class="text-center">Company</th>
+            <th class="text-center">Location</th>
+            <th class="text-center">Type</th>
+            <th class="text-center">Level</th>
+            <th class="text-center">YearsExp</th>
+            <th class="text-center">Country</th>
+            <th class="text-center">Skills</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item,iter:${df_limited}" style="text-align: center;">
+
+            <td th:text="${iter.index}"/>
+            <td th:text="${item.get(0)}"/>
+            <td th:text="${item.get(1)}"/>
+            <td th:text="${item.get(2)}"/>
+            <td th:text="${item.get(3)}"/>
+            <td th:text="${item.get(4)}"/>
+            <td th:text="${item.get(5)}"/>
+            <td th:text="${item.get(6)}"/>
+            <td th:text="${item.get(7)}"/>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <p>
+        As we can see the dataset is <span th:text="${df.size()}"/> rows and 8 columns
+    </p>
+    <h2>
+        Dataset Summary
+    </h2>
+    <p>
+        Here we can see summary of the database
+    </p>
+    <table class="table table-responsive-lg table-bordered">
+        <thead>
+        <tr class="text-center">
+            <th>#</th>
+            <th>Column</th>
+            <th>Non-Null Count</th>
+            <th>DataType</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th class="text-center">0</th>
+            <th class="text-center">Title</th>
+            <th class="text-center">4380 non-null</th>
+            <th class="text-center">String</th>
+        </tr>
+        <tr>
+            <th class="text-center">1</th>
+            <th class="text-center">Company</th>
+            <th class="text-center">4380 non-null</th>
+            <th class="text-center">String</th>
+        </tr>
+        <tr>
+            <th class="text-center">2</th>
+            <th class="text-center">Location</th>
+            <th class="text-center">4380 non-null</th>
+            <th class="text-center">String</th>
+        </tr>
+        <tr>
+            <th class="text-center">3</th>
+            <th class="text-center">Type</th>
+            <th class="text-center">4380 non-null</th>
+            <th class="text-center">String</th>
+        </tr>
+        <tr>
+            <th class="text-center">4</th>
+            <th class="text-center">Level</th>
+            <th class="text-center">4380 non-null</th>
+            <th class="text-center">String</th>
+        </tr>
+        <tr>
+            <th class="text-center">5</th>
+            <th class="text-center">YearsExp</th>
+            <th class="text-center">4380 non-null</th>
+            <th class="text-center">String</th>
+        </tr>
+        <tr>
+            <th class="text-center">6</th>
+            <th class="text-center">Country</th>
+            <th class="text-center">4380 non-null</th>
+            <th class="text-center">String</th>
+        </tr>
+        <tr>
+            <th class="text-center">7</th>
+            <th class="text-center">Skills</th>
+            <th class="text-center">4380 non-null</th>
+            <th class="text-center">String</th>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        As we can see the dataset have 8 columns and all data are strings so we can't drive numeric summary of it.
+    </p>
+    <p>
+        After reviewing the dataset from CSV we identified a problem that null rows have the keyword null and that
+        needed to be cleaned
+    </p>
+    <h2>
+        Data cleaning and removing duplicates
+    </h2>
+    <p>After analyzing the dataset by removing null and duplicated rows the dataset size became <span
+            th:text="${df_cleaned.size()}"/> rows and 8 columns</p>
+    <table class="table table-responsive-lg table-bordered">
+        <thead>
+        <tr>
+            <th> #</th>
+            <th class="text-center">Title</th>
+            <th class="text-center">Company</th>
+            <th class="text-center">Location</th>
+            <th class="text-center">Type</th>
+            <th class="text-center">Level</th>
+            <th class="text-center">YearsExp</th>
+            <th class="text-center">Country</th>
+            <th class="text-center">Skills</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item,iter:${df_limited}" style="text-align: center;">
+
+            <td th:text="${iter.index}"/>
+            <td th:text="${item.get(0)}"/>
+            <td th:text="${item.get(1)}"/>
+            <td th:text="${item.get(2)}"/>
+            <td th:text="${item.get(3)}"/>
+            <td th:text="${item.get(4)}"/>
+            <td th:text="${item.get(5)}"/>
+            <td th:text="${item.get(6)}"/>
+            <td th:text="${item.get(7)}"/>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Analyzing Jobs Grouped by company</h2>
+    <p> Here we analyze wuzzuf dataset to show how many jobs has been posted by each company.</p>
+
+    <table class="table table-responsive-lg table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th class="text-center">Company</th>
+            <th class="text-center">Job Count</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="company,iter:${job_by_company}" style="text-align: center;">
+
+            <td th:text="${iter.index}"/>
+            <td th:text="${company.getKey()}"/>
+            <td th:text="${company.getValue()}"/>
+        </tr>
+        </tbody>
+    </table>
+    <p>As we can see the that 590 company has hide their identity in the dataset </p>
+    <p>We are going to select only the top 15 company without the Confidential companies </p>
+    <table class="table table-responsive-lg table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th class="text-center">Company</th>
+            <th class="text-center">Job Count</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="limit_company,iter:${job_by_company.stream().limit(16).toList()}" style="text-align: center;"
+            th:if="${iter.index}!=0">
+            <td th:text="${iter.index}-1"/>
+            <td th:text="${limit_company.getKey()}"/>
+            <td th:text="${limit_company.getValue()}"/>
+        </tr>
+        </tbody>
+    </table>
+    <p>Here we can see Pie chart to visualize the companies share of jobs</p>
+
+    <script type="text/javascript" th:inline="javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Slices');
+            var company_data =/*[[${job_by_company.stream().limit(16).toList()}]]*/;
+            console.log(company_data)
+            var rows = []
+            for (var item in company_data) {
+                rows.push(Object.entries(company_data[item])[0])
+
+            }
+            data.addRows(rows.slice(1,15));
+            var options = {
+                'title': 'Number Of Jobs Per Company',
+                'width': 900,
+                'height': 600
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('company_jobs_chart'));
+            chart.draw(data, options);
+        }
+    </script>
+    <div id="company_jobs_chart"></div>
+    <h2>Analyzing Jobs Demanding in the wuzzuf platform</h2>
+    <p> Here we analyze wuzzuf dataset to show the most demanding jobs in middle east.</p>
+
+    <table class="table table-responsive-lg table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th class="text-center">Job</th>
+            <th class="text-center">No.Of posting</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="job,iter:${job_counter}" style="text-align: center;">
+
+            <td th:text="${iter.index}"/>
+            <td th:text="${job.getKey()}"/>
+            <td th:text="${job.getValue()}"/>
+        </tr>
+        </tbody>
+    </table>
+    <p>We are going to select only the top 10 demanding jobs in the dataset  </p>
+    <table class="table table-responsive-lg table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th class="text-center">Job</th>
+            <th class="text-center">No.Of posting</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="limit_job,iter:${job_counter.stream().limit(10).toList()}" style="text-align: center;">
+            <td th:text="${iter.index}"/>
+            <td th:text="${limit_job.getKey()}"/>
+            <td th:text="${limit_job.getValue()}"/>
+        </tr>
+        </tbody>
+    </table>
+    <p>Here we can see bar chart to visualize the jobs demanding in the dataset</p>
+    <script type="text/javascript" th:inline="javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawChart_job);
+
+        function drawChart_job() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Job Counting');
+            var job_data =/*[[${job_counter.stream().limit(16).toList()}]]*/;
+            var rows = []
+            for (var item in job_data) {
+                rows.push(Object.entries(job_data[item])[0])
+
+            }
+            data.addRows(rows);
+            var options = {
+                'title': 'Most demanding jobs',
+                'width': 900,
+                'height': 600
+            };
+            var chart = new google.visualization.BarChart(document.getElementById('jobs_count_chart'));
+            chart.draw(data, options);
+        }
+    </script>
+    <div id="jobs_count_chart"></div>
+
+
+    <h2>Analyzing Jobs Demanding by Location</h2>
+    <p> Here we analyze wuzzuf dataset to show the most areas (locations) have work in middle east.</p>
+
+    <table class="table table-responsive-lg table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th class="text-center">Area</th>
+            <th class="text-center">No.Of Jobs</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="job,iter:${job_by_area}" style="text-align: center;">
+
+            <td th:text="${iter.index}"/>
+            <td th:text="${job.getKey()}"/>
+            <td th:text="${job.getValue()}"/>
+        </tr>
+        </tbody>
+    </table>
+    <p>We are going to select only the top 10 demanding jobs in the dataset  </p>
+    <table class="table table-responsive-lg table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th class="text-center">Area</th>
+            <th class="text-center">No.Of Jobs</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="limit_job,iter:${job_by_area.stream().limit(10).toList()}" style="text-align: center;">
+            <td th:text="${iter.index}"/>
+            <td th:text="${limit_job.getKey()}"/>
+            <td th:text="${limit_job.getValue()}"/>
+        </tr>
+        </tbody>
+    </table>
+    <p>Here we can see bar chart to visualize the jobs demanding in the dataset</p>
+    <script type="text/javascript" th:inline="javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawChart_Area);
+
+        function drawChart_Area() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Job By Area');
+            var job_data =/*[[${job_by_area.stream().limit(16).toList()}]]*/;
+            var rows = []
+            for (var item in job_data) {
+                rows.push(Object.entries(job_data[item])[0])
+
+            }
+            data.addRows(rows);
+            var options = {
+                'title': 'Jobs By Area',
+                'width': 900,
+                'height': 600
+            };
+            var chart = new google.visualization.BarChart(document.getElementById('job_counter_by_area'));
+            chart.draw(data, options);
+        }
+    </script>
+    <div id="job_counter_by_area"></div>
+
+
+    <h2>Analyzing Most Demanding skills in the makrket</h2>
+    <p> Here we analyze wuzzuf dataset to show the most commen needed skills for employees in the market.</p>
+
+    <table class="table table-responsive-lg table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th class="text-center">Skill</th>
+            <th class="text-center">Count</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="skill,iter:${skills_counter}" style="text-align: center;">
+
+            <td th:text="${iter.index}"/>
+            <td th:text="${skill.getKey()}"/>
+            <td th:text="${skill.getValue()}"/>
+        </tr>
+        </tbody>
+    </table>
+    <p>We are going to select only the top 20 skills in the dataset   </p>
+    <table class="table table-responsive-lg table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th class="text-center">Skill</th>
+            <th class="text-center">Count</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="limit_skill,iter:${skills_counter.stream().limit(10).toList()}" style="text-align: center;">
+            <td th:text="${iter.index}"/>
+            <td th:text="${limit_skill.getKey()}"/>
+            <td th:text="${limit_skill.getValue()}"/>
+        </tr>
+        </tbody>
+    </table>
+    <p>Here we can see bar chart to visualize the skills required in the market</p>
+    <script type="text/javascript" th:inline="javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawChart_Area);
+
+        function drawChart_Area() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Skills Count');
+            var job_data =/*[[${skills_counter.stream().limit(16).toList()}]]*/;
+            var rows = []
+            for (var item in job_data) {
+                rows.push(Object.entries(job_data[item])[0])
+
+            }
+            data.addRows(rows);
+            var options = {
+                'title': 'Skills Counter',
+                'width': 900,
+                'height': 600
+            };
+            var chart = new google.visualization.BarChart(document.getElementById('skill_job_count'));
+            chart.draw(data, options);
+        }
+    </script>
+    <div id="skill_job_count"></div>
+<h2>Data Factorization</h2>
+    <p>We are going to factorize 3 columns of the dataset preparing for applying K-means clustering algorithm</p>
+    <table class="table table-responsive-lg table-bordered">
+        <thead>
+        <tr>
+            <th> #</th>
+            <th class="text-center">Title</th>
+            <th class="text-center">Company</th>
+            <th class="text-center">Location</th>
+            <th class="text-center">Type</th>
+            <th class="text-center">Level</th>
+            <th class="text-center">YearsExp</th>
+            <th class="text-center">Country</th>
+            <th class="text-center">Skills</th>
+            <th class="text-center">Years Factorized</th>
+            <th class="text-center">Title Factorized</th>
+            <th class="text-center">Company Factorized</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item,iter:${factorized_df}" style="text-align: center;">
+
+            <td th:text="${iter.index}"/>
+            <td th:text="${item.get(0)}"/>
+            <td th:text="${item.get(1)}"/>
+            <td th:text="${item.get(2)}"/>
+            <td th:text="${item.get(3)}"/>
+            <td th:text="${item.get(4)}"/>
+            <td th:text="${item.get(5)}"/>
+            <td th:text="${item.get(6)}"/>
+            <td th:text="${item.get(7)}"/>
+            <td th:text="${item.get(8)}"/>
+            <td th:text="${item.get(9)}"/>
+            <td th:text="${item.get(10)}"/>
+        </tr>
+        </tbody>
+    </table>
+    <h2>Applying K-means Clustering</h2>
+    <p>Here we Apply k-means algorithm to cluster the company/job data</p>
+    <img th:src="'data:image/png;base64,'+${imag_src}" width="900" height="500"/>
 </div>
 </body>
 </html>
