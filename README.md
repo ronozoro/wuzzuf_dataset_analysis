@@ -1,6 +1,6 @@
 ## Wuzzuf Jobs Analysis
 
-This project aims to analysis Wuzzuf jobs dataset from [Kaggle](https://www.kaggle.com/omarhanyy/wuzzuf-jobs) to extract insights about the job market in middle east
+This project aims to analysis [Wuzzuf](https://wuzzuf.net) jobs dataset from [Kaggle](https://www.kaggle.com/omarhanyy/wuzzuf-jobs) to extract insights about the job market in middle east
 
 ### Data processing & transformation
 
