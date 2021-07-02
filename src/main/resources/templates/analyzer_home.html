@@ -219,7 +219,6 @@
             data.addColumn('string', 'Topping');
             data.addColumn('number', 'Slices');
             var company_data =/*[[${job_by_company.stream().limit(16).toList()}]]*/;
-            console.log(company_data)
             var rows = []
             for (var item in company_data) {
                 rows.push(Object.entries(company_data[item])[0])
