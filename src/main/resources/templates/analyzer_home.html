@@ -282,7 +282,7 @@
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Topping');
             data.addColumn('number', 'Job Counting');
-            var job_data =/*[[${job_counter.stream().limit(16).toList()}]]*/;
+            var job_data =/*[[${job_counter.stream().limit(10).toList()}]]*/;
             var rows = []
             for (var item in job_data) {
                 rows.push(Object.entries(job_data[item])[0])
@@ -347,7 +347,7 @@
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Topping');
             data.addColumn('number', 'Job By Area');
-            var job_data =/*[[${job_by_area.stream().limit(16).toList()}]]*/;
+            var job_data =/*[[${job_by_area.stream().limit(10).toList()}]]*/;
             var rows = []
             for (var item in job_data) {
                 rows.push(Object.entries(job_data[item])[0])
@@ -386,7 +386,7 @@
         </tr>
         </tbody>
     </table>
-    <p>We are going to select only the top 20 skills in the dataset   </p>
+    <p>We are going to select only the top 10 skills in the dataset   </p>
     <table class="table table-responsive-lg table-bordered">
         <thead>
         <tr>
@@ -412,7 +412,7 @@
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Topping');
             data.addColumn('number', 'Skills Count');
-            var job_data =/*[[${skills_counter.stream().limit(16).toList()}]]*/;
+            var job_data =/*[[${skills_counter.stream().limit(10).toList()}]]*/;
             var rows = []
             for (var item in job_data) {
                 rows.push(Object.entries(job_data[item])[0])

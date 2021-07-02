@@ -111,18 +111,6 @@ public class WuzzufDataFrame {
         }
         return col_map.entrySet().stream().sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue())).toList();
     }
-
-    private  List<Map.Entry<String, Integer>> prepare_data_filtered(String[] col_names, String col_group_by, DataFrame df, int min, int max) {
-        DataFrame df_jobs = df.select(col_names);
-        Map<String, List<Tuple>> grouped_by_col = df_jobs.stream().collect(Collectors.groupingBy(row -> row.getString(col_group_by)));
-        HashMap<String, Integer> col_map = new HashMap();
-        for (Map.Entry<String, List<Tuple>> entry : grouped_by_col.entrySet()) {
-            col_map.put(entry.getKey(), entry.getValue().size());
-        }
-        return col_map.entrySet().stream().sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue())).filter(row -> row.getValue() >= min && row.getValue() <= max).toList();
-    }
-
-
     public DataFrame getWuzzufJobs() {
         return WuzzufJobs;
     }
