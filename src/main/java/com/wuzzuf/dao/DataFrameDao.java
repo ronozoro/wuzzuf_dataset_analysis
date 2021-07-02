@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 public interface DataFrameDao {
-    public List<Map.Entry<String, Integer>> SkillsCount(DataFrame df);
-    public List<Map.Entry<String, Integer>> jobsByCompany(DataFrame df);
-    public List<Map.Entry<String, Integer>> JobCounter(DataFrame df);
-    public List<Map.Entry<String, Integer>> JobByArea(DataFrame df);
-    public String KmeanGraph(DataFrame df) throws IOException;
-    public DataFrame cleanData(DataFrame df);
-    public DataFrame FactorizeData(DataFrame df);
-    public List<Map.Entry<String, Integer>> prepare_all_data(String[] col_names, String col_group_by, DataFrame df);
-    public DataFrame getWuzzufDataFrame();
+    List<Map.Entry<String, Integer>> SkillsCount(DataFrame df);
+    List<Map.Entry<String, Integer>> jobsByCompany(DataFrame df);
+    List<Map.Entry<String, Integer>> JobCounter(DataFrame df);
+    List<Map.Entry<String, Integer>> JobByArea(DataFrame df);
+    String KmeanGraph(DataFrame df) throws IOException;
+    DataFrame cleanData(DataFrame df);
+    DataFrame FactorizeData(DataFrame df);
+    List<Map.Entry<String, Integer>> prepare_all_data(String[] col_names, String col_group_by, DataFrame df);
+    DataFrame getWuzzufDataFrame();
 
 }
